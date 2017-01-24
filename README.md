@@ -1,5 +1,14 @@
 ## vue.js 2.0 中文文档 https://cn.vuejs.org
 
-> 欢迎大家一起参与校对工作 
+- 中文源码：https://github.com/vuejs/cn.vuejs.org 
+- 英文源码：https://github.com/vuejs/vuejs.org
 
-### 感谢所有参与翻译的朋友们！
+## Developing
+
+Start a dev server at http://localhost:4000/
+
+```
+$ npm install -g hexo-cli
+$ npm install
+$ hexo server
+```
