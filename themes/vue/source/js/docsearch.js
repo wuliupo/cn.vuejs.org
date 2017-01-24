@@ -5606,12 +5606,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        clearTimeout(reqTimeout);
 	
-	        var out;
+	        var out, responseText;
 	
 	        try {
+                responseText = req.responseText.replace(/cn\.vuejs\.org/g, location.hostname + ':' + location.port);
 	          out = {
-	            body: JSON.parse(req.responseText),
-	            responseText: req.responseText,
+	            body: JSON.parse(responseText),
+	            responseText: responseText,
 	            statusCode: req.status,
 	            // XDomainRequest does not have any response headers
 	            headers: req.getAllResponseHeaders && req.getAllResponseHeaders() || {}
