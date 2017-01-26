@@ -10,5 +10,7 @@ Start a dev server at http://localhost:4000/
 ```
 $ npm install -g hexo-cli
 $ npm install
-$ hexo server
+$ hexo server   (issue: https://github.com/vuejs/cn.vuejs.org/issues/225)
+$ hexo generate
+$ hexo deploy
 ```
