@@ -339,7 +339,7 @@
     
     
     <li>
-      <a href="/v2/guide/computed.html" class="sidebar-link">计算属性和观察者</a>
+      <a href="/v2/guide/computed.html" class="sidebar-link">计算属性和侦听器</a>
     </li>
   
     
@@ -487,7 +487,7 @@
     
     
     <li>
-      <a href="/v2/guide/mixins.html" class="sidebar-link">混合</a>
+      <a href="/v2/guide/mixins.html" class="sidebar-link">混入</a>
     </li>
   
     
@@ -1275,7 +1275,7 @@ new Vue({
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Failed to mount component: template or render function not defined.</span><br></pre></td></tr></table></figure>
 <p>为了解释为什么会报错，简单的将上面两个组件称为 A 和 B。模块系统看到它需要 A，但是首先 A 需要 B，但是 B 需要 A，而 A 需要 B，循环往复。因为不知道到底应该先解析哪个，所以将会陷入无限循环。要解决这个问题，我们需要在其中一个组件中告诉模块化管理系统：“A 虽然<em>最后</em>会用到 B，但是不需要优先导入 B”。</p>
 <p>在我们的例子中，可以选择让 <code>tree-folder</code> 组件中来做这件事。我们知道引起矛盾的子组件是 <code>tree-folder-contents</code>，所以我们要等到 <code>beforeCreate</code> 生命周期钩子中才去注册它：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">beforeCreate: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.$options.components.TreeFolderContents = <span class="built_in">require</span>(<span class="string">'./tree-folder-contents.vue'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">beforeCreate: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.$options.components.TreeFolderContents = <span class="built_in">require</span>(<span class="string">'./tree-folder-contents.vue'</span>).default</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>问题解决了！</p>
 <h3 id="内联模板"><a href="#内联模板" class="headerlink" title="内联模板"></a>内联模板</h3><p>如果子组件有 <code>inline-template</code> 特性，组件将把它的内容当作它的模板，而不是把它当作分发内容。这让模板编写起来更灵活。</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">my-component</span> <span class="attr">inline-template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>这些将作为组件自身的模板。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>而非父组件透传进来的内容。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">my-component</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -1300,7 +1300,7 @@ new Vue({
       
     发现错误？想参与编辑？
     <a href="https://github.com/vuejs/cn.vuejs.org/blob/master/src/v2/guide/components.md" target="_blank">
-      在 Github 上编辑此页！
+      在 GitHub 上编辑此页！
     </a>
   </div>
 </div>

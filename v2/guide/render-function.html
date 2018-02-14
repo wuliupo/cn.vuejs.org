@@ -339,7 +339,7 @@
     
     
     <li>
-      <a href="/v2/guide/computed.html" class="sidebar-link">计算属性和观察者</a>
+      <a href="/v2/guide/computed.html" class="sidebar-link">计算属性和侦听器</a>
     </li>
   
     
@@ -487,7 +487,7 @@
     
     
     <li>
-      <a href="/v2/guide/mixins.html" class="sidebar-link">混合</a>
+      <a href="/v2/guide/mixins.html" class="sidebar-link">混入</a>
     </li>
   
     
@@ -876,7 +876,7 @@
 </tbody>
 </table>
 <p>例如:</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">on: &#123;</span><br><span class="line">  <span class="string">'!click'</span>: <span class="keyword">this</span>.doThisInCapturingMode,</span><br><span class="line">  <span class="string">'~keyup'</span>: <span class="keyword">this</span>.doThisOnce,</span><br><span class="line">  <span class="string">`~!mouseover`</span>: <span class="keyword">this</span>.doThisOnceInCapturingMode</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">on: &#123;</span><br><span class="line">  <span class="string">'!click'</span>: <span class="keyword">this</span>.doThisInCapturingMode,</span><br><span class="line">  <span class="string">'~keyup'</span>: <span class="keyword">this</span>.doThisOnce,</span><br><span class="line">  <span class="string">'~!mouseover'</span>: <span class="keyword">this</span>.doThisOnceInCapturingMode</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>对于其他的修饰符，前缀不是很重要，因为你可以在事件处理函数中使用事件方法：</p>
 <table>
 <thead>
@@ -951,6 +951,10 @@
 </ul>
 <p>下面是一个依赖传入 props 的值的 <code>smart-list</code> 组件例子，它能代表更多具体的组件：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> EmptyList = &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"><span class="keyword">var</span> TableList = &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"><span class="keyword">var</span> OrderedList = &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"><span class="keyword">var</span> UnorderedList = &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"></span><br><span class="line">Vue.component(<span class="string">'smart-list'</span>, &#123;</span><br><span class="line">  functional: <span class="literal">true</span>,</span><br><span class="line">  render: <span class="function"><span class="keyword">function</span> (<span class="params">createElement, context</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">appropriateListComponent</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> items = context.props.items</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (items.length === <span class="number">0</span>)           <span class="keyword">return</span> EmptyList</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> items[<span class="number">0</span>] === <span class="string">'object'</span>) <span class="keyword">return</span> TableList</span><br><span class="line">      <span class="keyword">if</span> (context.props.isOrdered)      <span class="keyword">return</span> OrderedList</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> UnorderedList</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> createElement(</span><br><span class="line">      appropriateListComponent(),</span><br><span class="line">      context.data,</span><br><span class="line">      context.children</span><br><span class="line">    )</span><br><span class="line">  &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    items: &#123;</span><br><span class="line">      type: <span class="built_in">Array</span>,</span><br><span class="line">      required: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    isOrdered: <span class="built_in">Boolean</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="向子元素或子组件传递特性和事件"><a href="#向子元素或子组件传递特性和事件" class="headerlink" title="向子元素或子组件传递特性和事件"></a>向子元素或子组件传递特性和事件</h3><p>在普通组件中，没有被定义为 prop 的特性会自动添加到组件的根元素上，将现有的同名特性替换或与其<a href="class-and-style.html">智能合并</a>。</p>
+<p>然而函数式组件要求你显示定义该行为：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Vue.component(<span class="string">'my-functional-button'</span>, &#123;</span><br><span class="line">  functional: <span class="literal">true</span>,</span><br><span class="line">  render: <span class="function"><span class="keyword">function</span> (<span class="params">createElement, context</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 完全透明的传入任何特性、事件监听器、子结点等。</span></span><br><span class="line">    <span class="keyword">return</span> createElement(<span class="string">'button'</span>, context.data, context.children)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>向 <code>createElement</code> 通过传入 <code>context.data</code> 作为第二个参数，我们就把 <code>my-functional-button</code> 上面所有的特性和事件监听器都传递下去了。事实上这是非常透明的，那些事件甚至并不要求 <code>.native</code> 修饰符。</p>
 <h3 id="slots-和-children-对比"><a href="#slots-和-children-对比" class="headerlink" title="slots() 和 children 对比"></a><code>slots()</code> 和 <code>children</code> 对比</h3><p>你可能想知道为什么同时需要 <code>slots()</code> 和 <code>children</code>。<code>slots().default</code> 不是和 <code>children</code> 类似的吗？在一些场景中，是这样，但是如果是函数式组件和下面这样的 children 呢？</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">my-functional-component</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">slot</span>=<span class="string">"foo"</span>&gt;</span></span><br><span class="line">    first</span><br><span class="line">  <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>second<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">my-functional-component</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>对于这个组件，<code>children</code> 会给你两个段落标签，而 <code>slots().default</code> 只会传递第二个匿名段落标签，<code>slots().foo</code> 会传递第一个具名段落标签。同时拥有 <code>children</code> 和 <code>slots()</code> ，因此你可以选择让组件通过 <code>slot()</code> 系统分发或者简单的通过 <code>children</code> 接收，让其他组件去处理。</p>
@@ -1049,7 +1053,7 @@ console.error = function (error) {
       
     发现错误？想参与编辑？
     <a href="https://github.com/vuejs/cn.vuejs.org/blob/master/src/v2/guide/render-function.md" target="_blank">
-      在 Github 上编辑此页！
+      在 GitHub 上编辑此页！
     </a>
   </div>
 </div>

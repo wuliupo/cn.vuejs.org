@@ -295,9 +295,9 @@
 <li><p><strong>用法</strong>：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Vue.config.optionMergeStrategies._my_option = <span class="function"><span class="keyword">function</span> (<span class="params">parent, child, vm</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> child + <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Profile = Vue.extend(&#123;</span><br><span class="line">  _my_option: <span class="number">1</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Profile.options._my_option = 2</span></span><br></pre></td></tr></table></figure>
 <p>自定义合并策略的选项。</p>
-<p>合并策略选项分别接受第一个参数作为父实例，第二个参数为子实例，Vue 实例上下文被作为第三个参数传入。</p>
+<p>合并策略选项分别接收在父实例和子实例上定义的该选项的值作为第一个和第二个参数，Vue 实例上下文被作为第三个参数传入。</p>
 </li>
-<li><p><strong>参考</strong> <a href="../guide/mixins.html#自定义选项混合策略">自定义选项的混合策略</a></p>
+<li><p><strong>参考</strong> <a href="../guide/mixins.html#自定义选项混入策略">自定义选项的混入策略</a></p>
 </li>
 </ul>
 <h3 id="devtools"><a href="#devtools" class="headerlink" title="devtools"></a>devtools</h3><ul>
@@ -320,7 +320,7 @@
 <p>指定组件的渲染和观察期间未捕获错误的处理函数。这个处理函数被调用时，可获取错误信息和 Vue 实例。</p>
 <blockquote>
 <p>从 2.2.0 起，这个钩子也会捕获组件生命周期钩子里的错误。同样的，当这个钩子是 <code>undefined</code> 时，被捕获的错误会通过 <code>console.error</code> 输出而避免应用崩溃。</p>
-<p>从 2.4.0 起这个钩子也会捕获 Vue 自定义事件句柄内部的错误了。</p>
+<p>从 2.4.0 起这个钩子也会捕获 Vue 自定义事件处理函数内部的错误了。</p>
 <p>错误追踪服务 <a href="https://sentry.io" target="_blank" rel="noopener">Sentry</a> 和 <a href="https://docs.bugsnag.com/platforms/browsers/vue/" target="_blank" rel="noopener">Bugsnag</a> 都通过此选项提供了官方支持。</p>
 </blockquote>
 </li>
@@ -335,7 +335,7 @@
 </li>
 <li><p><strong>用法</strong>：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Vue.config.warnHandler = <span class="function"><span class="keyword">function</span> (<span class="params">msg, vm, trace</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// `trace` 是组件的继承关系追踪</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>为 Vue 的运行时警告赋于一个自定义句柄。注意这只会在开发者环境下生效，在生产环境下它会被忽略。</p>
+<p>为 Vue 的运行时警告赋予一个自定义处理函数。注意这只会在开发者环境下生效，在生产环境下它会被忽略。</p>
 </li>
 </ul>
 <h3 id="ignoredElements"><a href="#ignoredElements" class="headerlink" title="ignoredElements"></a>ignoredElements</h3><ul>
@@ -368,7 +368,7 @@
 <li><p><strong>默认值</strong>：<code>false (自 2.2.3 起)</code></p>
 </li>
 <li><p><strong>用法</strong>：</p>
-<p>设置为 <code>true</code> 以在浏览器开发工具中启用对组件初始化、编译、渲染和打补丁的性能追踪。只适用于开发模式和支持 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark" target="_blank" rel="noopener"><code>performance.mark</code></a> API 的浏览器上。</p>
+<p>设置为 <code>true</code> 以在浏览器开发工具的性能/时间线面板中启用对组件初始化、编译、渲染和打补丁的性能追踪。只适用于开发模式和支持 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark" target="_blank" rel="noopener"><code>performance.mark</code></a> API 的浏览器上。</p>
 </li>
 </ul>
 <h3 id="productionTip"><a href="#productionTip" class="headerlink" title="productionTip"></a>productionTip</h3><blockquote>
@@ -475,6 +475,8 @@
 <p>注册或获取全局过滤器。</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注册</span></span><br><span class="line">Vue.filter(<span class="string">'my-filter'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 返回处理后的值</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// getter，返回已注册的过滤器</span></span><br><span class="line"><span class="keyword">var</span> myFilter = Vue.filter(<span class="string">'my-filter'</span>)</span><br></pre></td></tr></table></figure>
 </li>
+<li><p><strong>参考</strong>：<a href="../guide/filters.html">过滤器</a></p>
+</li>
 </ul>
 <h3 id="Vue-component-id-definition"><a href="#Vue-component-id-definition" class="headerlink" title="Vue.component( id, [definition] )"></a>Vue.component( id, [definition] )</h3><ul>
 <li><p><strong>参数</strong>：</p>
@@ -497,7 +499,7 @@
 </ul>
 </li>
 <li><p><strong>用法</strong>：</p>
-<p>安装 Vue.js 插件。如果插件是一个对象，必须提供 <code>install</code> 方法。如果插件是一个函数，它会被作为 install 方法。install 方法将被作为 Vue 的参数调用。</p>
+<p>安装 Vue.js 插件。如果插件是一个对象，必须提供 <code>install</code> 方法。如果插件是一个函数，它会被作为 install 方法。install 方法调用时，会将 Vue 作为参数传入。</p>
 <p>当 install 方法被同一个插件多次调用，插件将只会被安装一次。</p>
 </li>
 <li><p><strong>参考</strong>：<a href="../guide/plugins.html">插件</a></p>
@@ -510,9 +512,9 @@
 </ul>
 </li>
 <li><p><strong>用法</strong>：</p>
-<p>全局注册一个混合，影响注册之后所有创建的每个 Vue 实例。插件作者可以使用混合，向组件注入自定义的行为。<strong>不推荐在应用代码中使用</strong>。</p>
+<p>全局注册一个混入，影响注册之后所有创建的每个 Vue 实例。插件作者可以使用混入，向组件注入自定义的行为。<strong>不推荐在应用代码中使用</strong>。</p>
 </li>
-<li><p><strong>参考</strong>：<a href="../guide/mixins.html#全局混合">全局混合</a></p>
+<li><p><strong>参考</strong>：<a href="../guide/mixins.html#全局混入">全局混入</a></p>
 </li>
 </ul>
 <h3 id="Vue-compile-template"><a href="#Vue-compile-template" class="headerlink" title="Vue.compile( template )"></a>Vue.compile( template )</h3><ul>
@@ -731,9 +733,8 @@
 <li><p><strong>类型</strong>：<code>Function</code></p>
 </li>
 <li><p><strong>详细</strong>：</p>
-<p>数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。</p>
-<p>你可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。</p>
-<p><strong>该钩子在服务器端渲染期间不被调用。</strong></p>
+<p>数据更新时调用，发生在虚拟 DOM 打补丁之前。这里适合在更新之前访问现有的 DOM，比如手动移除已添加的事件监听器。</p>
+<p><strong>该钩子在服务器端渲染期间不被调用，因为只有初次渲染会在服务端进行。</strong></p>
 </li>
 <li><p><strong>参考</strong>：<a href="../guide/instance.html#生命周期图示">生命周期图示</a></p>
 </li>
@@ -865,12 +866,12 @@
 <li><p><strong>类型</strong>：<code>Array&lt;Object&gt;</code></p>
 </li>
 <li><p><strong>详细</strong>：</p>
-<p><code>mixins</code> 选项接受一个混合对象的数组。这些混合实例对象可以像正常的实例对象一样包含选项，他们将在 <code>Vue.extend()</code> 里最终选择使用相同的选项合并逻辑合并。举例：如果你混合包含一个钩子而创建组件本身也有一个，两个函数将被调用。<br>Mixin 钩子按照传入顺序依次调用，并在调用组件自身的钩子之前被调用。</p>
+<p><code>mixins</code> 选项接受一个混入对象的数组。这些混入实例对象可以像正常的实例对象一样包含选项，他们将在 <code>Vue.extend()</code> 里最终选择使用相同的选项合并逻辑合并。举例：如果你的混入包含一个钩子而创建组件本身也有一个，两个函数将被调用。<br>Mixin 钩子按照传入顺序依次调用，并在调用组件自身的钩子之前被调用。</p>
 </li>
 <li><p><strong>示例</strong>：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> mixin = &#123;</span><br><span class="line">  created: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="number">1</span>) &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  created: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="number">2</span>) &#125;,</span><br><span class="line">  mixins: [mixin]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// =&gt; 1</span></span><br><span class="line"><span class="comment">// =&gt; 2</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p><strong>参考</strong>：<a href="../guide/mixins.html">混合</a></p>
+<li><p><strong>参考</strong>：<a href="../guide/mixins.html">混入</a></p>
 </li>
 </ul>
 <h3 id="extends"><a href="#extends" class="headerlink" title="extends"></a>extends</h3><ul>
@@ -1754,7 +1755,7 @@
       
     发现错误？想参与编辑？
     <a href="https://github.com/vuejs/cn.vuejs.org/blob/master/src/v2/api/index.md" target="_blank">
-      在 Github 上编辑此页！
+      在 GitHub 上编辑此页！
     </a>
   </div>
 </div>
