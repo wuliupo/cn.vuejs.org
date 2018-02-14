@@ -363,7 +363,7 @@ render: function (createElement) {
 on: {
   '!click': this.doThisInCapturingMode,
   '~keyup': this.doThisOnce,
-  `~!mouseover`: this.doThisOnceInCapturingMode
+  '~!mouseover': this.doThisOnceInCapturingMode
 }
 ```
 
@@ -570,6 +570,24 @@ Vue.component('smart-list', {
   }
 })
 ```
+
+### 向子元素或子组件传递特性和事件
+
+在普通组件中，没有被定义为 prop 的特性会自动添加到组件的根元素上，将现有的同名特性替换或与其[智能合并](class-and-style.html)。
+
+然而函数式组件要求你显示定义该行为：
+
+```js
+Vue.component('my-functional-button', {
+  functional: true,
+  render: function (createElement, context) {
+    // 完全透明的传入任何特性、事件监听器、子结点等。
+    return createElement('button', context.data, context.children)
+  }
+})
+```
+
+向 `createElement` 通过传入 `context.data` 作为第二个参数，我们就把 `my-functional-button` 上面所有的特性和事件监听器都传递下去了。事实上这是非常透明的，那些事件甚至并不要求 `.native` 修饰符。
 
 ### `slots()` 和 `children` 对比
 
